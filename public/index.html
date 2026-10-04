@@ -1,81 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Rede Inteligente</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:linear-gradient(135deg,#eef3f8,#d9e4f0);color:#263238;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}.card{width:min(720px,100%);background:#fff;border-radius:18px;padding:30px;box-shadow:0 15px 45px #0002}h1{margin:0 0 8px;color:#17324d}p{color:#607080;line-height:1.5}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}.item{background:#f6f8fa;border:1px solid #e1e7ec;border-radius:12px;padding:16px}.label{font-size:12px;text-transform:uppercase;font-weight:700;color:#66717c;margin-bottom:7px}.value{font-family:monospace;font-size:16px;word-break:break-word}.consent{display:flex;gap:10px;align-items:flex-start;background:#f5f8fb;border:1px solid #dce5ed;padding:14px;border-radius:12px;font-size:14px}.consent input{margin-top:3px}.button{width:100%;margin-top:16px;padding:13px;border:0;border-radius:10px;background:#1f6feb;color:white;font-size:16px;font-weight:700;cursor:pointer}.button:disabled{opacity:.55;cursor:not-allowed}.status{margin-top:14px;padding:12px;border-radius:10px;text-align:center;font-weight:600;display:none}.ok{display:block;background:#dff5e5;color:#176b32}.err{display:block;background:#fde3e3;color:#9b1c1c}@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:22px}}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Segoe UI, Tahoma, sans-serif;
+  background: #eef3f8;
+  color: #263238;
+  padding: 24px;
+}
+
+.card {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px #0002;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.item {
+  background: #f6f8fa;
+  padding: 14px;
+  border: 1px solid #e1e7ec;
+  border-radius: 10px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #66717c;
+  text-transform: uppercase;
+}
+
+.value {
+  font-family: monospace;
+  margin-top: 6px;
+  word-break: break-word;
+}
+
+.consent {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 14px;
+  background: #f5f8fb;
+  border-radius: 10px;
+}
+
+.consent input {
+  margin-top: 4px;
+}
+
+.btn {
+  width: 100%;
+  padding: 13px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #1769e0;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.ok {
+  background: #dff5e5;
+  color: #176b32;
+}
+
+.err {
+  background: #fde3e3;
+  color: #9b1c1c;
+}
+
+@media (max-width: 650px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main class="card">
+
 <h1>Rede Inteligente</h1>
-<p>Esta página mostra algumas informações técnicas do seu dispositivo. Você pode revisar os dados antes de enviá-los.</p>
+
+<p>
+Informações técnicas disponíveis pelo navegador e pelo servidor.
+</p>
 
 <div class="grid">
-<div class="item"><div class="label">Endereço IP público</div><div class="value" id="ip">Detectando...</div></div>
-<div class="item"><div class="label">Fuso horário</div><div class="value" id="timezone">--</div></div>
-<div class="item"><div class="label">Resolução da tela</div><div class="value" id="resolution">--</div></div>
-<div class="item"><div class="label">Sistema operacional</div><div class="value" id="os">--</div></div>
+
+<div class="item">
+<div class="label">IP</div>
+<div class="value" id="ip">Detectando...</div>
+</div>
+
+<div class="item">
+<div class="label">Sistema operacional</div>
+<div class="value" id="os">--</div>
+</div>
+
+<div class="item">
+<div class="label">Navegador</div>
+<div class="value" id="browser">--</div>
+</div>
+
+<div class="item">
+<div class="label">Tipo de dispositivo</div>
+<div class="value" id="device">--</div>
+</div>
+
+<div class="item">
+<div class="label">Núcleos lógicos</div>
+<div class="value" id="cores">--</div>
+</div>
+
+<div class="item">
+<div class="label">RAM aproximada</div>
+<div class="value" id="memory">--</div>
+</div>
+
+<div class="item">
+<div class="label">Resolução da tela</div>
+<div class="value" id="resolution">--</div>
+</div>
+
+<div class="item">
+<div class="label">Profundidade de cor</div>
+<div class="value" id="color">--</div>
+</div>
+
+<div class="item">
+<div class="label">Idioma</div>
+<div class="value" id="language">--</div>
+</div>
+
+<div class="item">
+<div class="label">Fuso horário</div>
+<div class="value" id="timezone">--</div>
+</div>
+
 </div>
 
 <label class="consent">
-<input type="checkbox" id="consent">
-<span>Aceito o uso de cookies neste site para melhorar minha experiência e permitir o funcionamento de recursos essenciais.</span>
+
+<input id="consent" type="checkbox">
+
+<span>
+Li as informações acima e autorizo o envio desses dados técnicos ao responsável pelo sistema para fins de demonstração/análise.
+</span>
+
 </label>
 
-<button class="button" id="send" disabled>Enviar meus dados</button>
-<div id="status" class="status"></div>
+<button class="btn" id="send" disabled>
+Enviar meus dados
+</button>
+
+<div id="status"></div>
+
 </main>
 
 <script>
+
 const $ = id => document.getElementById(id);
 
-function getOS(){
-  const ua=navigator.userAgent;
-  if(ua.includes("Windows")) return "Windows";
-  if(ua.includes("Android")) return "Android";
-  if(ua.includes("iPhone")||ua.includes("iPad")) return "iOS";
-  if(ua.includes("Mac")) return "macOS";
-  if(ua.includes("Linux")) return "Linux";
+const ua = navigator.userAgent;
+
+
+// Sistema operacional
+function detectOS() {
+
+  if (ua.includes("Windows"))
+    return "Windows";
+
+  if (ua.includes("Android"))
+    return "Android";
+
+  if (ua.includes("iPhone") || ua.includes("iPad"))
+    return "iOS";
+
+  if (ua.includes("Mac"))
+    return "macOS";
+
+  if (ua.includes("Linux"))
+    return "Linux";
+
   return "Desconhecido";
 }
 
-$("timezone").textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||"Desconhecido";
-$("resolution").textContent=`${screen.width}x${screen.height}`;
-$("os").textContent=getOS();
+
+// Navegador
+function detectBrowser() {
+
+  if (ua.includes("Edg/"))
+    return "Microsoft Edge";
+
+  if (ua.includes("OPR/"))
+    return "Opera";
+
+  if (ua.includes("Chrome/"))
+    return "Google Chrome";
+
+  if (ua.includes("Firefox/"))
+    return "Mozilla Firefox";
+
+  if (
+    ua.includes("Safari/") &&
+    !ua.includes("Chrome/")
+  )
+    return "Safari";
+
+  return "Desconhecido";
+}
+
+
+// Preencher informações
+
+$("os").textContent = detectOS();
+
+$("browser").textContent = detectBrowser();
+
+$("device").textContent =
+  /Mobi|Android|iPhone|iPad|Tablet/i.test(ua)
+  ? "Celular/Tablet"
+  : "Computador";
+
+$("cores").textContent =
+  navigator.hardwareConcurrency ||
+  "Indisponível";
+
+$("memory").textContent =
+  navigator.deviceMemory
+  ? `~${navigator.deviceMemory} GB`
+  : "Indisponível";
+
+$("resolution").textContent =
+  `${screen.width}x${screen.height}`;
+
+$("color").textContent =
+  screen.colorDepth
+  ? `${screen.colorDepth} bits`
+  : "Indisponível";
+
+$("language").textContent =
+  navigator.language ||
+  "Indisponível";
+
+$("timezone").textContent =
+  Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone ||
+  "Indisponível";
+
+
+// Buscar IP
 
 fetch("/api/ip")
-  .then(r=>r.json())
-  .then(d=>{$("ip").textContent=d.ip||"Indisponível"})
-  .catch(()=>{$("ip").textContent="Indisponível"});
+  .then(response => response.json())
+  .then(data => {
 
-$("consent").addEventListener("change",()=>{$("send").disabled=!$("consent").checked});
+    $("ip").textContent =
+      data.ip || "Indisponível";
 
-$("send").addEventListener("click",async()=>{
-  $("send").disabled=true;
-  const payload={
-    ip:$("ip").textContent,
-    timezone:$("timezone").textContent,
-    resolution:$("resolution").textContent,
-    os:$("os").textContent,
-    userAgent:navigator.userAgent,
-    language:navigator.language,
-    screen:`${screen.width}x${screen.height}`,
-    timestamp:new Date().toISOString()
+  })
+  .catch(() => {
+
+    $("ip").textContent =
+      "Indisponível";
+
+  });
+
+
+// Checkbox de autorização
+
+$("consent").onchange = () => {
+
+  $("send").disabled =
+    !$("consent").checked;
+
+};
+
+
+// Enviar dados
+
+$("send").onclick = async () => {
+
+  $("send").disabled = true;
+
+  const data = {
+
+    ip: $("ip").textContent,
+
+    os: $("os").textContent,
+
+    browser: $("browser").textContent,
+
+    deviceType: $("device").textContent,
+
+    cores: $("cores").textContent,
+
+    memory: $("memory").textContent,
+
+    resolution: $("resolution").textContent,
+
+    colorDepth: $("color").textContent,
+
+    language: $("language").textContent,
+
+    timezone: $("timezone").textContent,
+
+    userAgent: ua,
+
+    timestamp: new Date().toISOString()
+
   };
-  try{
-    const r=await fetch("/api/records",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-    if(!r.ok) throw new Error();
-    $("status").textContent="Dados enviados com sucesso.";
-    $("status").className="status ok";
-  }catch(e){
-    $("status").textContent="Não foi possível enviar os dados. Tente novamente.";
-    $("status").className="status err";
-    $("send").disabled=false;
+
+
+  try {
+
+    const response = await fetch(
+      "/api/records",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify(data)
+      }
+    );
+
+
+    if (!response.ok)
+      throw new Error();
+
+
+    $("status").textContent =
+      "Dados enviados com sucesso.";
+
+    $("status").className =
+      "status ok";
+
+
+  } catch (error) {
+
+    $("status").textContent =
+      "Não foi possível enviar os dados.";
+
+    $("status").className =
+      "status err";
+
+    $("send").disabled = false;
+
   }
-});
+
+};
+
 </script>
+
 </body>
 </html>
