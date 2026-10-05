@@ -1,29 +1,290 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Painel administrativo</title>
+
 <style>
-body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:#f3f6f9;color:#263238;padding:24px}.wrap{max-width:1200px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}h1{margin:0}.stats{display:flex;gap:12px;margin:22px 0}.stat{background:#fff;border:1px solid #e2e7ec;border-radius:12px;padding:16px;min-width:150px}.num{font-size:28px;font-weight:800}.table-wrap{overflow:auto;background:#fff;border-radius:14px;border:1px solid #e2e7ec}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:12px;border-bottom:1px solid #edf0f2;text-align:left;font-size:14px}th{background:#f7f9fb}.btn{padding:10px 14px;border:0;border-radius:8px;background:#1f6feb;color:#fff;font-weight:700;cursor:pointer}.danger{background:#c62828}.empty{text-align:center;padding:30px;color:#66717c}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Segoe UI, Tahoma, sans-serif;
+  background: #f3f6f9;
+  color: #263238;
+  padding: 24px;
+}
+
+.wrap {
+  max-width: 1400px;
+  margin: auto;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+h1 {
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  margin: 22px 0;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid #e2e7ec;
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 150px;
+}
+
+.num {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.table-wrap {
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e2e7ec;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1500px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #edf0f2;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+th {
+  background: #f7f9fb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.btn {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f6feb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.danger {
+  background: #c62828;
+}
+
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #66717c;
+}
+
+code {
+  word-break: break-all;
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
-<div class="top"><h1>Painel de registros</h1><button class="btn danger" onclick="clearRecords()">Apagar registros</button></div>
-<div class="stats"><div class="stat"><div>Total de envios</div><div class="num" id="total">0</div></div></div>
-<div class="table-wrap"><table><thead><tr><th>Data/hora</th><th>IP</th><th>SO</th><th>Resolução</th><th>Fuso</th><th>Idioma</th></tr></thead><tbody id="body"><tr><td colspan="6" class="empty">Carregando...</td></tr></tbody></table></div>
+
+  <div class="top">
+    <h1>Painel de registros</h1>
+
+    <button class="btn danger" onclick="clearRecords()">
+      Apagar registros
+    </button>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div>Total de envios</div>
+      <div class="num" id="total">0</div>
+    </div>
+
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Data / hora</th>
+          <th>IP</th>
+          <th>Sistema</th>
+          <th>Dispositivo</th>
+          <th>Resolução</th>
+          <th>CPU</th>
+          <th>Memória</th>
+          <th>Navegador</th>
+          <th>Fuso</th>
+          <th>Idioma</th>
+          <th>Cor</th>
+          <th>User Agent</th>
+        </tr>
+      </thead>
+
+      <tbody id="body">
+        <tr>
+          <td colspan="12" class="empty">
+            Carregando...
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
 </div>
+
 <script>
-async function load(){
- const r=await fetch("/api/records"); if(!r.ok){document.body.innerHTML="<h2>Acesso não autorizado.</h2>";return}
- const data=await r.json(); document.getElementById("total").textContent=data.length;
- const body=document.getElementById("body");
- body.innerHTML=data.length?data.map(x=>`<tr><td>${new Date(x.timestamp).toLocaleString("pt-BR")}</td><td>${esc(x.ip)}</td><td>${esc(x.os)}</td><td>${esc(x.resolution)}</td><td>${esc(x.timezone)}</td><td>${esc(x.language)}</td></tr>`).join(""):'<tr><td colspan="6" class="empty">Nenhum registro.</td></tr>';
+
+async function load() {
+
+  const r = await fetch("/api/records");
+
+  if (!r.ok) {
+    document.body.innerHTML =
+      "<h2>Acesso não autorizado.</h2>";
+    return;
+  }
+
+  const data = await r.json();
+
+  document.getElementById("total").textContent =
+    data.length;
+
+  const body = document.getElementById("body");
+
+  if (!data.length) {
+
+    body.innerHTML =
+      '<tr><td colspan="12" class="empty">Nenhum registro.</td></tr>';
+
+    return;
+  }
+
+  body.innerHTML = data.map(x => `
+
+    <tr>
+
+      <td>
+        ${new Date(x.timestamp).toLocaleString("pt-BR")}
+      </td>
+
+      <td>
+        ${esc(x.ip)}
+      </td>
+
+      <td>
+        ${esc(x.os)}
+      </td>
+
+      <td>
+        ${esc(x.device_type)}
+      </td>
+
+      <td>
+        ${esc(x.resolution)}
+      </td>
+
+      <td>
+        ${esc(x.cores)}
+      </td>
+
+      <td>
+        ${esc(x.memory)}
+      </td>
+
+      <td>
+        ${esc(x.browser)}
+      </td>
+
+      <td>
+        ${esc(x.timezone)}
+      </td>
+
+      <td>
+        ${esc(x.language)}
+      </td>
+
+      <td>
+        ${esc(x.color_depth)}
+      </td>
+
+      <td>
+        <code>${esc(x.user_agent)}</code>
+      </td>
+
+    </tr>
+
+  `).join("");
+
 }
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-async function clearRecords(){if(!confirm("Apagar todos os registros?"))return;await fetch("/api/records",{method:"DELETE"});load()}
+
+
+function esc(v) {
+
+  return String(v ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+async function clearRecords() {
+
+  if (!confirm("Apagar todos os registros?")) {
+    return;
+  }
+
+  await fetch("/api/records", {
+    method: "DELETE"
+  });
+
+  await load();
+
+}
+
+
 load();
-setInterval(load,10000);
+
+setInterval(load, 10000);
+
 </script>
+
 </body>
 </html>
